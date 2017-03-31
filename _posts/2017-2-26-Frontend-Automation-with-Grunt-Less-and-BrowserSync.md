@@ -1,9 +1,3 @@
-<!--
-  Title: Frontend Automation with Grunt, Less and BrowserSync
-  Description: The main idea is to share and explore a little bit about frontend technologies, like Grunt, to automate task like minification, compilation, unit testing and so on. Also takes a look a little example about Css pre-processors like Less and a cool tool such browserSync that it makes easier to test our changes in a real time way. BTW I took advantage for show how Angular JS works, so I use concepts like controllers, factories, directives, etc.
-  Author: Geovanny Alzate Sandoval
-  -->
-
 ---
 layout: post
 title: Frontend Automation with Grunt, Less and BrowserSync
