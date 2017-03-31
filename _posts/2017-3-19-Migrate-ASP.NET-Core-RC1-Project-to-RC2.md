@@ -3,23 +3,6 @@ layout: post
 title: Migrate ASP.NET Core RC1 Project to RC2
 ---
 
-<!--
-  Title: Migrate ASP.NET Core RC1 Project to RC2
-  Description: Shows some important changes respect to Asp.Net Core RC1 version with RC2.
-  Author: Geovanny Alzate Sandoval
-  -->
-
-<html>
-  <head>
-      <meta name="keywords" content="asp.net core, RC1, RC2, C#, c-sharp, entity framework core, .net core, dot net core, grunt, Migrate ASP.NET Core RC1 Project to RC2, migrate, bower, angular, angularjs, asp.net web api, web api, repository pattern, facade patern, asp.net mvc, asp.net, angular, entity framework, ASP.NET Core RC1 to RC2">
-
-<meta name="description" content="About one year and a half ago I was exploring the new Asp.net Core features, it had very cool and amazing stuff, but it was unstable as well, off course, it was a beta version. When you downloaded packages through different dotnet versions or even package versions, the changes were big ones, I mean, renamed namespaces, classes or methods didn't exist anymore, the methods sign were different, anyway, was very annoying deal with these stuff, because it was a framework in evolution process. So I just decided to leave the framework get mature. Today, a little late (after two release versions) comparing RC1 and RC2 versions I realize there are a lot of changes, so is why I decided migrate my old Asp.net Core project to the new one and I wanna show you the things what I faced doing that.">
-
-  </head>
-</html>
-
-# Migrate ASP.NET Core RC1 Project to RC2
-
 About one year and a half ago I was exploring the new [Asp.net Core](https://www.asp.net/core) features, it had very cool and amazing stuff, but it was unstable as well, off course, it was a beta version. When you downloaded packages through different dotnet versions or even package versions, the changes were big ones, I mean, renamed namespaces, classes or methods didn't exist anymore, the methods sign were different, anyway, was very annoying deal with these stuff, because it was a framework in evolution process. So I just decided to leave the framework get mature. Today, a little late (after two release versions) comparing RC1 and RC2 versions I realize there are a lot of changes, so is why I decided migrate my old Asp.net Core project to the new one and I wanna show you the things what I faced doing that.
 
 ## Prerequisites and Installation Requirements
