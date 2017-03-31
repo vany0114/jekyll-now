@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Frontend Automation with Grunt, Less and BrowserSync
+title: Migrate ASP.NET Core RC1 Project to RC2
 ---
 
 <!--
