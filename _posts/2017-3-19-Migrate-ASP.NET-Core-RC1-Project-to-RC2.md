@@ -1,3 +1,8 @@
+---
+layout: post
+title: Frontend Automation with Grunt, Less and BrowserSync
+---
+
 <!--
   Title: Migrate ASP.NET Core RC1 Project to RC2
   Description: Shows some important changes respect to Asp.Net Core RC1 version with RC2.
