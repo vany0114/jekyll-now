@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Frontend Automation with Grunt, Less and BrowserSync
+keywords: "grunt, angular, angularjs, angular, less, browser sync, grunt task, css, css preprocessor, botstrap, npm, node js, grunt-contrib-less, grunt-contrib-concat, grunt-contrib-uglify, grunt-contrib-watch, grunt-browser-sync, Automation, BrowserSync, Automation with Grunt and BrowserSync, Frontend Automation with Grunt, Less and BrowserSync"
 ---
 
 The main idea is to share and explore a little bit about frontend technologies, like [Grunt](https://gruntjs.com/), to automate task like minification, compilation, unit testing and so on. Also takes a look a little example about Css pre-processors like [Less](http://lesscss.org/) and a cool tool such [browserSync](https://browsersync.io/) that it makes easier to test our changes in a real time way.
