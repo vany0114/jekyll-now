@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Migrate ASP.NET Core RC1 Project to RC2
+comments: true
+excerpt: About one year and a half ago I was exploring the new Asp.net Core features, it had very cool and amazing stuff, but it was unstable as well, off course, it was a beta version. When you downloaded packages through different dotnet versions or even package versions, the changes were big ones, I mean, renamed namespaces, classes or methods didn't exist anymore, the methods sign were different, anyway, was very annoying deal with these stuff, because it was a framework in evolution process. So I just decided to leave the framework get mature. Today, a little late (after two release versions) comparing RC1 and RC2 versions I realize there are a lot of changes, so is why I decided migrate my old Asp.net Core project to the new one and I wanna show you the things what I faced doing that.
 keywords: "asp.net core, RC1, RC2, C#, c-sharp, entity framework core, .net core, dot net core, grunt, Migrate ASP.NET Core RC1 Project to RC2, migrate, bower, angular, angularjs, asp.net web api, web api, repository pattern, facade patern, asp.net mvc, asp.net, angular, entity framework, ASP.NET Core RC1 to RC2"
 ---
 
@@ -63,6 +65,7 @@ Another important difference in *project.json* is the ***command*** section, it'
     "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview2-final"
   }
 ```
+
 In the other hand if you want to use the Entity Fraework commands into the Package Manager Console in Visual Studio, you must install PowerShell 5. (This is a temporary requirement that will be removed in the next release)
 
 By the way, the Entity Framework migrations are also different, mostly in .Net Core libraries, now you can't execute migrations commands directly on this ones, instead you need the next workaround: 
@@ -78,7 +81,7 @@ Update database example:
 
 I executed these commands from *ParkingLot.Services* (an Asp.Net Web API project) as it shows in the image bellow:
 
-[Ef-command-example]:https://github.com/vany0114/Migrate-ASP.NET-Core-RC1-Project-to-RC2/blob/master/images/ef_migrations.png "Ef-command-example"
+[Ef-command-example]:https://raw.githubusercontent.com/vany0114/vany0114.github.io/master/images/ef_migrations.png "Ef-command-example"
 ![Ef-command-example][Ef-command-example]
 
 ### Package Names and Versions
@@ -122,7 +125,8 @@ Let's take a look the changes into Asp.Net Web projects:
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0"
   }
-``` 
+```
+
 As you can see RC2 is even more modular than RC1. That's so good!
 >Notice there is a naming convention as well, ***AspNetCore*** instead ***AspNet***
 
@@ -181,6 +185,7 @@ These are some changes what I faced when I was migrating the project:
         public virtual DbSet<ParkingLot> ParkingLot { get; set; }
     }
 ``` 
+
 >You need to add a constructor, to your derived context, that takes context options and passes them to the base constructor. This is needed because Microsoft removed some of the scary magic that snuck them in behind the scenes.
 
 #### Startup
@@ -214,6 +219,7 @@ These are some changes what I faced when I was migrating the project:
       Configuration = configurationBuilder.Build();
   }
 ``` 
+
 You can see some significant changes, for instance the interface name, the *SetBasePath* method and a very useful and cool property ***EnvironmentName***, that allows you have different settings between environments. (Like web.config transformations in Asp.Net)
 
 ##### ConfigureServices method
@@ -276,6 +282,7 @@ You can see some significant changes, for instance the interface name, the *SetB
     services.AddCors(x => x.AddPolicy("defaultPolicy", policy));
   }
 ``` 
+
 The first visible change is the way to get the connection string, RC2 has a method to get this one called ***GetConnectionString*** (also there is a change into appsettings.json that it will show bellow).
 
 Another important change is the way to inject the Entity framework context, in RC1, you had to add Entity Framework services to the application service provider. In RC1 you passe an IServiceProvider to the context, this has now moved to DbContextOptions.
@@ -330,6 +337,7 @@ As I said earlier, this the change about connection string into *appsettings.son
 The *Configure* method only has a signature change.
 
 > I had troubles serving the static files in the Asp.Net Mvc project with html and js files in order to works correctly AngularJS implementation, so it was necessary the next configuration into the Configure Method:
+
 ```cs
 	app.UseDefaultFiles();
 	app.UseStaticFiles();

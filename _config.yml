@@ -4,6 +4,8 @@
 
 # Name of your site (displayed in the header)
 name: Geovanny Alzate Sandoval
+title: El vany dev
+comments: true
 
 # Short bio or description (displayed in the header)
 description: I'm a passionate for the software development, design and architecture.
@@ -13,35 +15,24 @@ avatar: https://raw.githubusercontent.com/vany0114/vany0114.github.io/master/ima
 
 #
 # Flags below are optional
-#
 
-# Includes an icon in the footer for each username you enter
-footer-links:
-  dribbble:
-  email: 
-  facebook:
-  flickr:
-  github: vany0114
-  instagram:
-  linkedin: geovannyalzatesandoval
-  pinterest:
-  rss: # just type anything here for a working RSS icon
-  twitter:
-  stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
-  youtube: # channel/<your_long_string> or user/<user-name>
-  googleplus: # anything in your profile username that comes after plus.google.com/
-
+social:
+   github: vany0114
+   twitter:
+   facebook:
+   email: elvany0114@gmail.com
+   linkedin: geovannyalzatesandoval
 
 # Enter your Disqus shortname (not your username) to enable commenting on posts
 # You can find your shortname on the Settings page of your Disqus account
-disqus:
+disqus_shortname: elvanydev
 
 # Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
-google_analytics:
+google_analytics: 
 
 # Your website URL (e.g. http://barryclark.github.io or http://www.barryclark.co)
 # Used for Sitemap.xml and your RSS feed
-url:
+url: https://vany0114.github.io/
 
 # If you're hosting your site at a Project repository on GitHub pages
 # (http://yourusername.github.io/repository-name)
@@ -54,9 +45,12 @@ baseurl: ""
 #
 
 permalink: /:title/
+paginate_path: "blog/page:num/"
 
 # The release of Jekyll Now that you're using
 version: v1.2.0
+
+markdown: kramdown
 
 # Jekyll 3 now only supports Kramdown for Markdown
 kramdown:
@@ -64,9 +58,17 @@ kramdown:
   input: GFM
   # Jekyll 3 and GitHub Pages now only support rouge for syntax highlighting
   syntax_highlighter: rouge
-  syntax_highlighter_opts:
-    # Use existing pygments syntax highlighting css
-    css_class: 'highlight'
+
+#highlighter: rouge
+paginate: 5
+
+navigation:
+ - title: Home
+   url: /index.html
+ - title: About
+   url: /about
+ - title: Contact
+   url: /contact
 
 # Set the Sass partials directory, as we're using @imports
 sass:
@@ -77,6 +79,7 @@ gems:
   - jekyll-sitemap # Create a sitemap using the official Jekyll sitemap gem
   - jekyll-feed # Create an Atom feed using the official Jekyll feed gem
   - jekyll-seo-tag
+  - jekyll-paginate
 
 # Exclude these files from your production _site
 exclude:
@@ -85,5 +88,3 @@ exclude:
   - LICENSE
   - README.md
   - CNAME
-
-theme: jekyll-theme-cayman
