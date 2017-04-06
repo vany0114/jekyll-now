@@ -171,4 +171,4 @@ This script call the browserSync client that you have installed.
 
 So you don't need worry about compile or make a manual change in order to test all your changes when you are developing, as you can see, you can mix a lot of task that Grunt provide you in order to automate you developing process.
 
-Check out the code on my GitHub repository: https://github.com/vany0114/Frontend-Automation-with-Grunt-Less-and-BrowserSync
+Download the code from my GitHub repository: <https://github.com/vany0114/Frontend-Automation-with-Grunt-Less-and-BrowserSync>
