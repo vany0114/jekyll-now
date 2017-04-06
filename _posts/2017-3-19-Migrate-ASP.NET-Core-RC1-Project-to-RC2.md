@@ -444,4 +444,4 @@ The good news is with RC2 those tasks are easier thanks to ***"Bundling and mini
 
 So that's all, this was a brief resume about some important changes between Asp.Net core RC1 and RC2, at least the ones I faced up.
 
-Check out the code on my GitHub repository: <https://github.com/vany0114/Migrate-ASP.NET-Core-RC1-Project-to-RC2>
+Download the code from my GitHub repository: <https://github.com/vany0114/Migrate-ASP.NET-Core-RC1-Project-to-RC2>
