@@ -11,7 +11,7 @@ title: Contact Long Haul
     <p class="intro">I receive suggestions, feedback or even insults, please be patient if I don't reply you soon.</p>
     <p class="intro">We'll get in touch!</p>
   </div>
-  <form action="http://formspree.io/elvany0114@gmail.com" method="POST">
+  <form action="https://formspree.io/elvany0114@gmail.com" method="POST">
     <label for="name">Name</label>    
     <input type="text" id="name" name="name" class="full-width"><br>
     <label for="email">Email Address</label>
