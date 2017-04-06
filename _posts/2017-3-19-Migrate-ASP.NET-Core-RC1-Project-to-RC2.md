@@ -13,7 +13,7 @@ About one year and a half ago I was exploring the new [Asp.net Core](https://www
 
 
 ## Instructions
-1. Clone this repository.
+1. Clone [this repository](https://github.com/vany0114/Migrate-ASP.NET-Core-RC1-Project-to-RC2).
 2. Compile it.
 3. Execute the ***ParkingLot.Services*** project. You can use `dotnet run` command.
 4. Execute the ***ParkingLot.Client*** project.
@@ -443,3 +443,5 @@ module.exports = function (grunt) {
 The good news is with RC2 those tasks are easier thanks to ***"Bundling and minification"*** that comes built-in in Visual Studio. You can [check this out](https://docs.microsoft.com/en-us/aspnet/core/client-side/bundling-and-minification) to learn more about this awesome option.
 
 So that's all, this was a brief resume about some important changes between Asp.Net core RC1 and RC2, at least the ones I faced up.
+
+Check out the code on my GitHub repository: <https://github.com/vany0114/Migrate-ASP.NET-Core-RC1-Project-to-RC2>
