@@ -18,7 +18,7 @@ BTW I took advantage for show how Angular JS works, so I use concepts like contr
 2. Get an IDE, like [VSCode](https://code.visualstudio.com/), [Sublime Text](https://www.sublimetext.com/) or whatever you prefer (even a notepad)
 
 ## Instructions
-1. Clone this repository.
+1. Clone [this repository](https://github.com/vany0114/Frontend-Automation-with-Grunt-Less-and-BrowserSync).
 2. Execute `npm install` command in order to install all dependencies or packages what I used to the lab.(It's important you're on the main path on the console, e.g: `cd mypath\Frontend_Lab`)
 3. Execute `grunt` command in order to start the automated tasks configured on _Gruntfile.js_
 4. Execute `http-server` (in another command window) in order to serve the application
@@ -170,3 +170,5 @@ In order to browserSync works, is important to add this script in the main html:
 This script call the browserSync client that you have installed.
 
 So you don't need worry about compile or make a manual change in order to test all your changes when you are developing, as you can see, you can mix a lot of task that Grunt provide you in order to automate you developing process.
+
+Check out the code on my GitHub repository: https://github.com/vany0114/Frontend-Automation-with-Grunt-Less-and-BrowserSync
