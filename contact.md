@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Contact Long Haul
+title: Contact Geovanny Alzate Sandoval
 ---
 
 <div id="contact">
