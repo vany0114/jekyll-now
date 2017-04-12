@@ -16,7 +16,7 @@ body {
 	font-size: 112.5%; // 18px base font size
 	color: $black;
 	overflow-x: hidden;
-  margin: 0;
+  	margin: 0;
 
 	p , ul {
 		margin: 0 0 2rem;
@@ -202,6 +202,7 @@ HEADER STYLING
 		font-family: $sans-serif;
 		font-weight: 800;
 		text-transform: uppercase;
+		text-shadow: -3px -2px 1px #0e1416;
 
 		a {
 			color: white;

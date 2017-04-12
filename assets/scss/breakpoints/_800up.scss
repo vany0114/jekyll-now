@@ -72,6 +72,8 @@ HEADER STYLING
 		line-height: 1;
 		letter-spacing: -3px;
 		padding-left: 0;
+		text-shadow: 11px 6px 5px #0e1416;
+		text-transform: none;
 	}
 
 	nav {
@@ -80,6 +82,7 @@ HEADER STYLING
 
 		ul {
 			margin: 0;
+
 			li {
 				display: inline;
 				line-height: 3em;
@@ -92,6 +95,9 @@ HEADER STYLING
 					font-size: .9em;
 					text-decoration: none;
 					padding: 0 .25em;
+					font-size: 1.2em;
+					text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+					font-weight: bold;
 
 					&:hover {
 						color: darken(white, 20%);
@@ -100,7 +106,7 @@ HEADER STYLING
 
 				&.current {
 					padding-bottom: .25em;
-					border-bottom: 4px solid rgba(255,255,255,.4); 
+					border-bottom: 4px solid rgba(247, 247, 247, 1); 
 				}
 			}
 		}
