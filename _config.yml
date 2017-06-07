@@ -88,3 +88,7 @@ exclude:
   - LICENSE
   - README.md
   - CNAME
+
+webrick:
+  headers:
+    Cache-Control: max-age=86400
