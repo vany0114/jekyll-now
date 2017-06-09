@@ -72,7 +72,7 @@ Asp.net SignalR only has an Http host and therefore Http transports. (We gonna c
 
 #### EndPoints API:
 
-This feature is the build block of SignalR Core and it allows to support the Host-Agnostic feature. That's possible because it's supported by Microsoft.AspNetCore.Sockets. So SignalR Core has an abstract class called ***EndPoint*** with a method called ***OnConnectedAsync*** that receives a ConenctionContext object, which one allows to implement the transport layer for the protocols differents to Http. (and also Http because EndPoint class is an abstract class)
+This feature is the building block of SignalR Core and it allows to support the Host-Agnostic feature. That's possible because it's supported by Microsoft.AspNetCore.Sockets. So SignalR Core has an abstract class called ***EndPoint*** with a method called ***OnConnectedAsync*** that receives a ConenctionContext object, which one allows to implement the transport layer for the protocols differents to Http. (and also Http because EndPoint class is an abstract class)
 
 Actually the ***HubEndPoint*** class implements the ***EndPoint*** class, because as I said earlier, the EndPoint class doesn't depends on Http by the other hand depends on ConenctionContext object, which one has the transport to the current conecction. So the EndPoint implementation into the Hubs, implements the transports that are available for Http like Long Polling, Server Sent Events and WebSockets.
 
