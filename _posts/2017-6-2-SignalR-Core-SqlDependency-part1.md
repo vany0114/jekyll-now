@@ -2,13 +2,13 @@
 layout: post
 title: SignalR Core and SqlTableDependency - Part One
 comments: true
-excerpt: Is very early to talk about SignalR Core but it's exciting too. With the recent releasing of .netcore 2.0 the last Microsoft Build we can test a lot of great improvements and new features, between of them, the new SignalR Core. (Or at least the aproximation of what the SignalR Core team wants to build.) I have to warning that SignalR Core is on development process right now (as a matter of fact, while I was doing this demo I faced some issues because of the constant upgrades of SignalR Core team), so a bunch of things could change, but in some months (6 months at least) we can compare the progress and we could have a stable version of SignalR Core, meanwhile we can enjoy of this "version".
+excerpt: Is very early to talk about SignalR Core but it's exciting too. With the recent releasing of .netcore 2.0 the last Microsoft Build we can test a lot of great improvements and new features, between of them, the new SignalR Core. (Or at least the aproximation of what the SignalR Core team wants to build.) I have to warning that SignalR Core is on development process right now (as a matter of fact, while I was doing this demo I faced some issues because of the constant upgrades of SignalR Core team), so a bunch of things could change, but in some months (6 months at least) we can compare the progress and we could have an stable version of SignalR Core, meanwhile we can enjoy of this "version".
 keywords: "asp.net core, signalR, signalR core, C#, c-sharp, entity framework core, .net core, dot net core, .net core 2.0, dot net core 2.0, .netcore2.0, asp.net core mvc, asp.net, entity framework, sqlDependency, SqlTableDependency, sql server, sql service broker"
 ---
 
-Is very early to talk about [SignalR Core](https://github.com/aspnet/SignalR) but it's exciting too. With the recent releasing of .netcore 2.0 the last [Microsoft Build](https://build.microsoft.com/) we can test a lot of great improvements and new features, between of them, the new SignalR Core. (Or at least the aproximation of what the SignalR Core team wants to build.) I have to warning that SignalR Core is on development process right now (as a matter of fact, while I was doing this demo I faced some issues because of the constant upgrades of SignalR Core team), so a bunch of things could change, but in some months (6 months at least) we can compare the progress and we could have a stable version of SignalR Core, meanwhile we can enjoy of this "version".
+Is very early to talk about [SignalR Core](https://github.com/aspnet/SignalR) but it's exciting too. With the recent releasing of .netcore 2.0 the last [Microsoft Build](https://build.microsoft.com/) we can test a lot of great improvements and new features, between of them, the new SignalR Core. (Or at least the aproximation of what the SignalR Core team wants to build.) I have to warning that SignalR Core is on development process right now (as a matter of fact, while I was doing this demo I faced some issues because of the constant upgrades of SignalR Core team), so a bunch of things could change, but in some months (6 months at least) we can compare the progress and we could have an stable version of SignalR Core, meanwhile we can enjoy of this "version".
 
-## When do we could have a stable version?
+## When do we could have an stable version?
 
 The SignalR Core team announced a couple of possible dates to release the preview and the release version:
 * Preview: June 2017
@@ -22,7 +22,7 @@ Let's talk about what things we won't have anymore in SignalR Core with respect 
 
 #### No more Jquery and 3rd party library dependencies:
 
-The web client will be pure javascript, actually it's made with [TypeScript](https://www.typescriptlang.org/) and how is well known TypeScript compiles a plane javascript, so we got the guarantie (thanks to TypeScript) that our web SignalR Core client is cross-browser, cross-host y cross-OS since the browser supports ECMAScript3. (fortunately all modern browsers support it)
+The web client will be pure javascript, actually it's made with [TypeScript](https://www.typescriptlang.org/) and how is well known TypeScript compiles a plane javascript, so we got the guarantie (thanks to TypeScript) that our web SignalR Core client is cross-browser, cross-host and cross-OS since the browser supports ECMAScript3. (fortunately all modern browsers support it)
 
 
 #### No more auto-reconnect with message replay:
