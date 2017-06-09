@@ -86,7 +86,7 @@ So it allows us have different clients to talk in different languages (formats) 
 
 #### Supports WebSocket native clients:
 
-With Asp.Net SignalR we must use the javascript client in order to connect with a SignalR server, (speaking about web client) other wise is impossible to use the SignalR server.
+With Asp.Net SignalR we must use the javascript client in order to connect with a SignalR server, (speaking about web client) otherwise is impossible to use the SignalR server.
 With SignalR Core we can build our own clients if we prefer that, taking advantage of the browser APIs to do this.
 
 #### TypeScript Client:
