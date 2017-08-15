@@ -109,7 +109,7 @@ Now that we known the most important aspects about SignalR Core, take a look at 
 
 So we can watch on the picture the clear dependency of SignalR Core over Asp.Net Core Sockets and not over Http like before. We can realize that now we have two types of servers, Http and Tcp and also we can connect to them via Hub API (like the earlier version of SignalR and besides as you can see a Hub in SignalR Core is really an EndPoint) or even via Sockets thanks to the new architecture model.
 
-So this is the first post about the SignalR Core, in the next posts we gonna talk about how SqlDependency and SqlTableDependency are a good complement with SignalR Core in order to we have applications more reactives. Besides I'll show you a demo using [.NET Core 2.0.0 Preview 1](https://www.microsoft.com/net/core/preview#windowscmd) and Visual Studio 2017 [Preview version 15.3](https://www.visualstudio.com/vs/preview/)
+So this is the first post about the SignalR Core, in the next posts we gonna talk about how SqlDependency and SqlTableDependency are a good complement with SignalR Core in order to we have applications more reactives. Besides I'll show you a demo using [.NET Core 2.0 Preview 1](https://www.microsoft.com/net/core/preview#windowscmd) and Visual Studio 2017 [Preview version 15.3](https://www.visualstudio.com/vs/preview/)
 
 I hope that you had stayed involved with SignalR Core because is coming up very interesting stuff with .netcore 2.0 and SignalR Core!!!
 
