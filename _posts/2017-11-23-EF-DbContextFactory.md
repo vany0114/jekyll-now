@@ -2,28 +2,28 @@
 layout: post
 title: EF.DbContextFactory
 comments: true
-excerpt: I have been worked with Entity Framework in a lot of projects, it's very useful, it can make you more productive and it has a lot of great features that become it an awesome ORM, but like everything in the world, it has its downsides or issues. Sometime I was working in a project with concurrency scenarios, reading a queue from a message bus, sending messages to another bus with SignalR and so on. Everything was going good until I did a real test with multiple users connected at the same time, it turns out Entity Framework doesn't work fine in that scenario. I did aware that DbContext  is not thread safe therefore I was injecting my DbContext instance per request following the Microsoft recommendatios in order to every request would has a new instance and so avoid problems sharing the contexts and state's entities inside the context.
+excerpt: I have worked with Entity Framework in a lot of projects, it’s very useful, it can make you more productive and it has a lot of great features that make it an awesome ORM, but like everything in the world, it has its downsides or issues. Sometime I was working in a project with concurrency scenarios, reading a queue from a message bus, sending messages to another bus with SignalR and so on. Everything was going good until I did a real test with multiple users connected at the same time, it turns out Entity Framework doesn’t work fine in that scenario. I did know that DbContext is not thread safe therefore I was injecting my DbContext instance per request following the Microsoft recommendatios so every request would has a new instance and then avoid problems sharing the contexts and state’s entities inside the context.
 keywords: "asp.net core, C#, c-sharp, entity framework core, .net core, dot net core, .net core 2.0, dot net core 2.0, .netcore2.0, asp.net core mvc, asp.net, entity framework, ninject, structuremap, unity
 csharp, dotnet, dotnet-core, dotnetcore, entity-framework, entity-framework-core, entityframework, ninject, ninject-extension, dbcontext, netframework, concurrency, multiple-threads, nuget, efcore, factory, webapi, webapi2"
 ---
 
-I have been worked with Entity Framework in a lot of projects, it's very useful, it can make you more productive and it has a lot of great features that become it an awesome ORM, but like everything in the world, it has its downsides or issues. Sometime I was working in a project with concurrency scenarios, reading a queue from a message bus, sending messages to another bus with SignalR and so on. Everything was going good until I did a real test with multiple users connected at the same time, it turns out Entity Framework doesn't work fine in that scenario. I did aware that DbContext  is not thread safe therefore I was injecting my DbContext instance per request following the Microsoft recommendatios in order to every request would has a new instance and so avoid problems sharing the contexts and state's entities inside the context. I really had a problem, beause I didn't want to hardcode DbContext creation inside my repository usnig the ***using*** statement to create and dispose inmediatly, but I had to support concurrency scenarios with Entity Framework in a proper way. So I remembered sometime studying the awesome [CQRS Journey](https://github.com/MicrosoftArchive/cqrs-journey) Microsoft project what that guys was injecting their repositories like a factory and one of them explained me why. This was his answer:
+I have worked with Entity Framework in a lot of projects, it’s very useful, it can make you more productive and it has a lot of great features that make it an awesome ORM, but like everything in the world, it has its downsides or issues. Sometime I was working in a project with concurrency scenarios, reading a queue from a message bus, sending messages to another bus with SignalR and so on. Everything was going good until I did a real test with multiple users connected at the same time, it turns out Entity Framework doesn’t work fine in that scenario. I did know that DbContext is not thread safe therefore I was injecting my DbContext instance per request following the Microsoft recommendatios so every request would has a new instance and then avoid problems sharing the contexts and state’s entities inside the context. I really had a problem, beause I didn’t want to hardcode DbContext creation inside my repository using the ***using*** statement to create and dispose inmediatly, but I had to support concurrency scenarios with Entity Framework in a proper way. So I remembered sometime studying the awesome [CQRS Journey](https://github.com/MicrosoftArchive/cqrs-journey) Microsoft project, where those guys were injecting their repositories like a factory and one of them explained me why. This was his answer:
 
 > ***This is to avoid having a permanent reference to an instance of the context. Entity Framework context life cycles should be as short as possible. Using a delegate, the context is instantiated and disposed inside the class it is injected in and on every needs.***
 
-So it's because of that and after to search an standard and good solution and hadn't found it, for example a package to manage it easily, I decided to create my first open source project and contribute to this great community creating the [EF.DbContextFactory](https://github.com/vany0114/EF.DbContextFactory) that I going to explain you bellow, what's and how's it works. By the way I'm pretty glad about it and I hope it would be useful for you all!
+So it’s because of that and after searching an standard and good solution without finding it (e.g a package to manage it easily), I decided to create my first open source project and contribute to this great community creating the [EF.DbContextFactory](https://github.com/vany0114/EF.DbContextFactory) that I am going to explain you bellow, what’s and how it works. By the way, I’m pretty glad about it and I hope it will be useful for you all!
 
 ## What EF.DbContextFactory is and How it works
 
 With [EF.DbContextFactory](https://github.com/vany0114/EF.DbContextFactory) you can resolve easily your DbContext dependencies in a safe way injecting a factory instead of an instance itself, enabling you to work in [multi-thread contexts](https://msdn.microsoft.com/en-us/library/jj729737(v=vs.113).aspx?f=255&mspperror=-2147217396#Anchor_3) with Entity Framework or just work safest with DbContext following the Microsoft recommendations about the [DbContext lifecycle](https://msdn.microsoft.com/en-us/library/jj729737(v=vs.113).aspx?f=255&mspperror=-2147217396#Anchor_1) but keeping your code clean and testable using dependeny injection pattern.
 
 ## The Problem
-The Entity Framework DbContext has a well-known problem: it's not thread safe. So it means, you can't got an instance of the same entity class tracked by multiple contexts at the same time. For example, if you have a realtime, collaborative, concurrency or reactive application/scenario, using, for instance, SignalR or multiple threads in background (which are common characteristics in modern applications) I bet you have faced with this kind of exception: 
+The Entity Framework DbContext has a well-known problem: it’s not thread safe. So it means, you can’t get an instance of the same entity class tracked by multiple contexts at the same time. For example, if you have a realtime, collaborative, concurrency or reactive application/scenario, using, for instance, SignalR or multiple threads in background (which are common characteristics in modern applications). I bet you have faced this kind of exception:
 
 > ***"The context cannot be used while the model is being created. This exception may be thrown if the context is used inside the OnModelCreating method or if the same context instance is accessed by multiple threads concurrently. Note that instance members of DbContext and related classes are not guaranteed to be thread safe"***
 
 ## The Solutions
-There are multiple solutions to manage concurrency scenarios from data perspective, the most common patterns are *Pessimistic Concurrency (Locking)* and *Optimistic Concurrency*, actually Entity Framework has an implementation of [Optimistic Concurrency](https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/handling-concurrency-with-the-entity-framework-in-an-asp-net-mvc-application). So these solutions are implemented usually on the database side or even in both, backend and database sides, but the problem with DbContext is that's happening on memory, don't even in database. An approach what allows you to keep your code clean, follow good practices and keep on using Entity Framework and obvoiusly that works fine in multiple threads is injecting a factory in your repositories/unit of work (or whatever you're using it ~~code smell~~) insetead of the instance itself and use it and despose it as soon as possible.
+There are multiple solutions to manage concurrency scenarios from data perspective, the most common patterns are *Pessimistic Concurrency (Locking)* and *Optimistic Concurrency*, actually Entity Framework has an implementation of [Optimistic Concurrency](https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/handling-concurrency-with-the-entity-framework-in-an-asp-net-mvc-application). So these solutions are implemented usually on the database side or even in both, backend and database sides, but the problem with DbContext is that it is happening on memory, not even in the database. An approach that allows you to keep your code clean, follow good practices and keep on using Entity Framework and obviously works fine in multiple threads, is injecting a factory in your repositories/unit of work (or whatever you're using it ~~code smell~~) insetead of the instance itself and use it and dispose it as soon as possible.
 
 ## Key points
 * Dispose DbContext immediately.
@@ -34,13 +34,13 @@ There are multiple solutions to manage concurrency scenarios from data perspecti
 
 ## Getting Started
 
-EF.DbContextFactory provides you integration with most popular dependency injection frameworks such as [Unity](https://github.com/unitycontainer/unity), [Ninject](http://www.ninject.org/), [Structuremap](http://structuremap.github.io/) and [.Net Core](https://dotnet.github.io/). So there are for now five Nuget packages listed above that you can use like an extension to inject your DbContext as a factory.
+EF.DbContextFactory provides you integration with most popular dependency injection frameworks such as [Unity](https://github.com/unitycontainer/unity), [Ninject](http://www.ninject.org/), [Structuremap](http://structuremap.github.io/) and [.Net Core](https://dotnet.github.io/). So there five Nuget packages so far listed above that you can use like an extension to inject your DbContext as a factory.
 
 All of nuget packages add a generic extension method to the dependency injection framework container called `AddDbContextFactory`. It needs the derived DbContext Type and as an optional parameter, the name or the connection string itself. ***If you have the default one (DefaultConnection) in the configuration file, you dont need to specify it***
 
 > **EFCore.DbContextFactory** nuget package is slightly different and will be explained later.
 
-The other thing what you need is to inject your DbContext as a factory instead of the instance itself:
+The other thing that you need is to inject your DbContext as a factory instead of the instance itself:
 
 ```cs
 public class OrderRepositoryWithFactory : IOrderRepository
@@ -99,7 +99,7 @@ kernel.AddDbContextFactory<OrderContext>();
 ``` 
 
 ### StructureMap Asp.Net Mvc and Web Api
-If you are using StructureMap as DI container into your Asp.Net Mvc or Web Api project you must install [EF.DbContextFactory.StructureMap](https://www.nuget.org/packages/EF.DbContextFactory.StructureMap/) nuget package. After that, you are able to access to the extension method from the `Registry` object from StructureMap.
+If you are using StructureMap as DI container into your Asp.Net Mvc or Web Api project you must install [EF.DbContextFactory.StructureMap](https://www.nuget.org/packages/EF.DbContextFactory.StructureMap/) nuget package. After that, you are able to access the extension method from the `Registry` object from StructureMap.
 
 ```cs
 using EF.DbContextFactory.StructureMap.Extensions;
@@ -110,7 +110,7 @@ this.AddDbContextFactory<OrderContext>();
 ``` 
 
 ### StructureMap 4.1.0.361 Asp.Net Mvc and Web Api or WebApi.StructureMap
-If you are using StructureMap >= `4.1.0.361` as DI container or or WebApi.StructureMap for Web Api projects you must install [EF.DbContextFactory.StructureMap.WebApi](https://www.nuget.org/packages/EF.DbContextFactory.StructureMap.WebApi/) nuget package. After that, you are able to access to the extension method from the `Registry` object from StructureMap. (In my opinion this StructureMap version is is cleaner)
+If you are using StructureMap >= `4.1.0.361` as DI container or or WebApi.StructureMap for Web Api projects you must install [EF.DbContextFactory.StructureMap.WebApi](https://www.nuget.org/packages/EF.DbContextFactory.StructureMap.WebApi/) nuget package. After that, you are able to access the extension method from the `Registry` object from StructureMap. (In my opinion this StructureMap version is cleaner)
 
 ```cs
 using EF.DbContextFactory.StructureMap.WebApi.Extensions;
@@ -121,7 +121,7 @@ this.AddDbContextFactory<OrderContext>();
 ``` 
 
 ### Unity Asp.Net Mvc and Web Api
-If you are using Unity as DI container into your Asp.Net Mvc or Web Api project you must install [EF.DbContextFactory.Unity](https://www.nuget.org/packages/EF.DbContextFactory.Unity/) nuget package. After that, you are able to access to the extension method from the `UnityContainer` object from Unity.
+If you are using Unity as DI container into your Asp.Net Mvc or Web Api project you must install [EF.DbContextFactory.Unity](https://www.nuget.org/packages/EF.DbContextFactory.Unity/) nuget package. After that, you are able to access the extension method from the `UnityContainer` object from Unity.
 
 ```cs
 using EF.DbContextFactory.Unity.Extensions;
@@ -146,7 +146,7 @@ using EFCore.DbContextFactory.Extensions;
 services.AddSqlServerDbContextFactory<OrderContext>();
 ``` 
 
-Also you can use the known method `AddDbContextFactory` with the difference that it receives the `DbContextOptionsBuilder` object in order that you're able to build your DbContext as you need.
+Also you can use the known method `AddDbContextFactory` with the difference that it receives the `DbContextOptionsBuilder` object so you’re able to build your DbContext as you need.
 
 ```cs
 var dbLogger = new LoggerFactory(new[]
@@ -175,7 +175,7 @@ services.AddDbContextFactory<OrderContext>(builder => builder
 
 ## Examples
 
-You can find the examples in this repository and you can see the examples with Ninject, Structuremap, Structuremap.WebApi, Unity and Asp.Net Core, all you need is to run the migrations and that's it. Every example project has two controllers, one to receive a repository that implements the DbContextFactory and another one that doesn't and every one creates and deletes orders at the same time in different threads to simulate the concurrency. So you can see how the one that doesn't implement the DbContextFactory throws errors related to concurrency issues.
+You can find the examples in this repository and you can see the examples with Ninject, Structuremap, Structuremap.WebApi, Unity and Asp.Net Core, all you need is to run the migrations and that's it. Every example project has two controllers, one to receive a repository that implements the DbContextFactory and another one that doesn't, and every one creates and deletes orders at the same time in different threads to simulate the concurrency. So you can see how the one that doesn't implement the DbContextFactory throws errors related to concurrency issues.
 
 <figure>
   <img src="{{ '/images/example.gif' | prepend: site.baseurl }}" alt=""> 
