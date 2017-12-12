@@ -111,7 +111,7 @@ So we can watch on the picture the clear dependency of SignalR Core over Asp.Net
 
 So this is the first post about the SignalR Core, in the next posts we gonna talk about how SqlDependency and SqlTableDependency are a good complement with SignalR Core in order to we have applications more reactives. Besides I'll show you a demo using [.NET Core 2.0 Preview 1](https://www.microsoft.com/net/core/preview#windowscmd) and Visual Studio 2017 [Preview version 15.3](https://www.visualstudio.com/vs/preview/)
 
-I hope that you had stayed involved with SignalR Core because is coming up very interesting stuff with .netcore 2.0 and SignalR Core!!!
+I hope that you stay tune with SignalR Core because is coming up very interesting stuff with .netcore 2.0 and SignalR Core!!!
 
 >Lastly I wanna shared with you the slides and video to my speech last week in the [MDE.Net](https://www.meetup.com/MDE-NET/) community about SignalR Core.
 
