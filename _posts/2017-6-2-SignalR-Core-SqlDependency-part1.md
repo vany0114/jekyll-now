@@ -8,7 +8,7 @@ keywords: "asp.net core, signalR, signalR core, C#, c-sharp, entity framework co
 
 Is very early to talk about [SignalR Core](https://github.com/aspnet/SignalR) but it's exciting too. With the recent releasing of .netcore 2.0 the last [Microsoft Build](https://build.microsoft.com/) we can test a lot of great improvements and new features, between of them, the new SignalR Core. (Or at least the approximation of what the SignalR Core team wants to build.) I have to warning that SignalR Core is on development process right now (as a matter of fact, while I was doing this demo I faced some issues because of the constant upgrades of SignalR Core team), so a bunch of things could change, but in some months (6 months at least) we can compare the progress and we could have an stable version of SignalR Core, meanwhile we can enjoy of this "version".
 
-## When do we could have an stable version?
+## When do we could have a stable version?
 
 The SignalR Core team announced a couple of possible dates to release the preview and the release version:
 * Preview: June 2017
