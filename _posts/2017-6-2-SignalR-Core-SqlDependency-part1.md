@@ -27,13 +27,13 @@ The web client will be pure javascript, actually it's made with [TypeScript](htt
 
 #### No more auto-reconnect with message replay:
 
-One of the reasons wich ones the SignalR Core team decided to remove this feature it's because of the performance issues due to the server should keep a buffer per connection in order to store all messages and this way it can tries re-send it again to the client when the connection is restored. So you can imagine how the server works when there are a lot of clients and these clients lost a lot of messages. You can take a look at all the issues related with performance about this feature on [this link.](https://github.com/SignalR/SignalR/search?p=1&q=ring+buffer&type=Issues&utf8=%E2%9C%93)
+One of the reasons which ones the SignalR Core team decided to remove this feature it's because of the performance issues due to the server should keep a buffer per connection in order to store all messages and this way it can tries re-send it again to the client when the connection is restored. So you can imagine how the server works when there are a lot of clients and these clients lost a lot of messages. You can take a look at all the issues related with performance about this feature on [this link.](https://github.com/SignalR/SignalR/search?p=1&q=ring+buffer&type=Issues&utf8=%E2%9C%93)
 
-Another common problem with the re-connection is that the message-id could be bigger than the message itself, due to that the re-connection request contains the last message-id received by the client, the groups' token and information about to the groups that the client belongs. So when the re-connection happens the server has to send this message-id with every message in order to the client can tell to the server which one the last message that was received. Thus when the client belongs a lot of groups the message-id tends to be bigger and therefore the payload increases significatively the request size. You can check a real life case on [this issue.](https://github.com/SignalR/SignalR/issues/3811)
+Another common problem with the re-connection is that the message-id could be bigger than the message itself, due to that the re-connection request contains the last message-id received by the client, the groups' token and information about to the groups that the client belongs. So when the re-connection happens the server has to send this message-id with every message in order to the client can tell the server which one the last message that was received. Thus when the client belongs a lot of groups the message-id tends to be bigger and therefore the payload increases the request size. You can check a real life case on [this issue.](https://github.com/SignalR/SignalR/issues/3811)
 
-Another similar issue, it's about groups' token, because of when the client belongs a lot of groups more bigger is the token size and the server needs to send to the client every time the client joins or leave a group. When the re-connection happens, the client sends back to the server this token, the problem is that the request is made via GET and the url has a limit in the size and it can change between browsers. So this token could be so big that the url won't support the request. Check [this out.](https://github.com/SignalR/SignalR/issues/3408)
+Another similar issue, it's about groups' token, because of when the client belongs a lot of groups, the token size is bigger and the server needs to send to the client every time the client joins or leave a group. When the re-connection happens, the client sends back to the server this token, the problem is that the request is made via GET and the url has a limit in the size and it can change between browsers. So this token could be so big that the url won't support the request. Check [this out.](https://github.com/SignalR/SignalR/issues/3408)
 
-So if we need this feature we'll have to do by ourself.
+So if we need this feature we'll have to do by ourselves.
 
 
 #### No more multi-hub endpoints:
@@ -45,7 +45,7 @@ With SignalR Core every hub has an url (endpoint).
 
 Asp.Net SignalR has only one way to scale out and it's through of a MessageBus. Currently SignalR offers 3 implementations: [Azure Service Bus](https://docs.microsoft.com/en-us/aspnet/signalr/overview/performance/scaleout-with-windows-azure-service-bus), [Redis](https://docs.microsoft.com/en-us/aspnet/signalr/overview/performance/scaleout-with-redis) and [Sql Server](https://docs.microsoft.com/en-us/aspnet/signalr/overview/performance/scaleout-with-sql-server) (service broker). There is only one scenario when whatever of these options works fine and it's when we're using SignalR as a server broadcast, because the server has the control the quantity of messages what are sent. But, in collaborative scenarios (client-to-client), those 3 ways to scale out could become in a bottle neck due to the number of messages grows with the number of clients.
 
-SignalR Core let open the option to scale out in order that to the user will be who handles it according his needs (because it depends on every scenario, bussiness, constraints or even to the infraestructure) in order to will be more “plug and play”, in fact, there is an example how SignalR Core can scale out with [Redis.](https://github.com/aspnet/SignalR/tree/dev/src/Microsoft.AspNetCore.SignalR.Redis). Besides a MessageBus is not the only option to scale out, as I said earlier it’s a trade off between our needs, our business, our limitations, etc. We could use, for instance, microservices, actors model, etc.
+SignalR Core let open the option to scale out in order that to the user will be who handles it according his needs (because it depends on every scenario, business, constraints or even to the infrastructure) in order to will be more “plug and play”, in fact, there is an example how SignalR Core can scale out with [Redis.](https://github.com/aspnet/SignalR/tree/dev/src/Microsoft.AspNetCore.SignalR.Redis). Besides a MessageBus is not the only option to scale out, as I said earlier it’s a trade off between our needs, our business, our limitations, etc. We could use, for instance, microservices, actors model, etc.
 
 Basically Asp.Net SignalR has like golden hammer the MessageBus to scale out, and we already know about this anti-pattern.
 
@@ -63,11 +63,11 @@ Now we gonna talk of funnier stuff, like which are the new features in SignalR C
 
 #### Binary format to send and receive messages:
 
-With Asp.Net SignalR you can only send and reveive messages in JSON format, now with SignalR Core we can hanlde messages in binary format!
+With Asp.Net SignalR you can only send and receive messages in JSON format, now with SignalR Core we can handle messages in binary format!
 
 #### Host-agnostic:
 
-SignalR Core doesn't depends anymore on Http, instead SignalR Core talks about connections like something agnostic, for instance, now we can use SignalR over Http or Tcp.
+SignalR Core doesn't depend anymore on Http, instead SignalR Core talks about connections like something agnostic, for instance, now we can use SignalR over Http or Tcp.
 Asp.net SignalR only has an Http host and therefore Http transports. (We gonna check out the SignalR Core architecture later)
 
 #### EndPoints API:
@@ -76,7 +76,7 @@ This feature is the building block of SignalR Core and it allows to support the 
 
 Actually the ***HubEndPoint*** class implements the ***EndPoint*** class, because as I said earlier, the EndPoint class doesn't depends on Http by the other hand depends on ConenctionContext object, which one has the transport to the current conecction. So the EndPoint implementation into the Hubs, implements the transports that are available for Http like Long Polling, Server Sent Events and WebSockets.
 
->By the way, SignalR Core doesn't support ***Forever Frame*** transport anymore, the SignalR Core team decided remove it from this version because is the more ineficient transport and it's only supported by IE.
+>By the way, SignalR Core doesn't support ***Forever Frame*** transport anymore, the SignalR Core team decided to remove it from this version because is the more inefficient transport and it's only supported by IE.
 
 #### Multiple formats:
 
@@ -91,7 +91,7 @@ With SignalR Core we can build our own clients if we prefer that, taking advanta
 
 #### TypeScript Client:
 
-As I said earlier the web client is supported by TypeScript with all advantages that it offer us.
+As I said earlier the web client is supported by TypeScript with all advantages that it offers us.
 
 #### Scale out extensible and flexible:
 
@@ -100,7 +100,7 @@ As I explained before, SignalR Core removed the 3 ways to scale out that was bui
 
 ## SignalR Core Architecture
 
-Now that we known the most important aspects about SignalR Core, take a look at its architecture and we realize how the SignalR Core basis is on the Asp.Net Core Sockets.
+Now that we know the most important aspects about SignalR Core, take a look at its architecture and we realize how the SignalR Core basis is on the Asp.Net Core Sockets.
 
 <figure>
   <img src="{{ '/images/SignalrCore.png' | prepend: site.baseurl }}" alt=""> 
