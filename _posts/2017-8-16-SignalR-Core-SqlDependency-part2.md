@@ -2,11 +2,13 @@
 layout: post
 title: SignalR Core and SqlTableDependency - Part Two
 comments: true
-excerpt: In the previous post we talked about the things what doesn’t support anymore, the new features and SignalR Core's Architecture. We realized that SignalR Core's building block is Asp.Net Core Sockets and now SignalR Core doesn't depends on Http anymore and besides we can connect througth TCP protocol. In this post we gonna talk about how SqlDependency and SqlTableDependency are a good complement with SignalR Core in order to we have applications more reactives. Finally I'll show you a demo using .NET Core 2.0 Preview 1 and Visual Studio 2017 Preview version 15.3
+excerpt: In the previous post we talked about the things what doesn’t support anymore, the new features and SignalR Core's Architecture. We realized that SignalR Core's building block is Asp.Net Core Sockets and now SignalR Core doesn't depends on Http anymore and besides we can connect through TCP protocol. In this post we gonna talk about how SqlDependency and SqlTableDependency are a good complement with SignalR Core in order to we have applications more reactive. Finally I'll show you a demo using .NET Core 2.0 Preview 1 and Visual Studio 2017 Preview version 15.3
 keywords: "asp.net core, signalR, signalR core, C#, c-sharp, entity framework core, .net core, dot net core, .net core 2.0, dot net core 2.0, .netcore2.0, asp.net core mvc, asp.net, entity framework, sqlDependency, SqlTableDependency, sql server, sql service broker"
 ---
 
-In the [previous post](http://elvanydev.com/SignalR-Core-SqlDependency-part1/) we talked about the things what doesn’t support anymore, the new features and SignalR Core's Architecture. We realized that SignalR Core's building block is Asp.Net Core Sockets and now SignalR Core doesn't depends on Http anymore and besides we can connect througth TCP protocol. In this post we gonna talk about how SqlDependency and SqlTableDependency are a good complement with SignalR Core in order to we have applications more reactives. Finally I'll show you a demo using [.NET Core 2.0 Preview 1](https://www.microsoft.com/net/core/preview#windowscmd) and Visual Studio 2017 [Preview version 15.3](https://www.visualstudio.com/vs/preview/)
+> **Note:** I strongly recommend you to read [this post](http://elvanydev.com/SignalR-Core-Alpha/) when you finish reading this one, in order to get know the latest changes with the new SignalR Core Alpha version.
+
+In the [previous post](http://elvanydev.com/SignalR-Core-SqlDependency-part1/) we talked about the things what doesn’t support anymore, the new features and SignalR Core's Architecture. We realized that SignalR Core's building block is Asp.Net Core Sockets and now SignalR Core doesn't depends on Http anymore and besides we can connect through TCP protocol. In this post we gonna talk about how SqlDependency and SqlTableDependency are a good complement with SignalR Core in order to we have applications more reactive. Finally I'll show you a demo using [.NET Core 2.0 Preview 1](https://www.microsoft.com/net/core/preview#windowscmd) and Visual Studio 2017 [Preview version 15.3](https://www.visualstudio.com/vs/preview/)
 
 ## SqlDependency
 
@@ -15,7 +17,7 @@ In a few words SqlDependency is a SQL Server API to detect changes and push data
 ## SqlTableDependency
 
 SqlTableDependency is an API based on SqlDependency's architecture that improves a lot of things.
-SqlTableDependency's record change audit, provides the low-level implementation to receive database notifications creating SQL Server trigger, queue and service broker that immediately notify us when any record table changes happens.
+SqlTableDependency's record change audit, provides the low-level implementation to receive database notifications creating SQL Server trigger, queue and service broker that immediately notify us when any record table changes happen.
 You can read more about SqlTableDependency [here](https://github.com/christiandelbianco/monitor-table-change-with-sqltabledependency)
 
 >*SqlTableDependency is not a wrapper of SqlDependency.*
@@ -61,11 +63,11 @@ GO
   <figcaption>Fig1. - Demo</figcaption>
 </figure>
 
-As you can see in the image above, there is a SignalR Core server that is subscribed to the database via SqlTableDependency. Also there is a console app client that is connected to the SignalR Core server througth TCP protocol and the web clients are conected via HTTP protocol. The SignalR Core server performs the broadcast to all clients when any client perform a request or even when the database change.
+As you can see in the image above, there is a SignalR Core server that is subscribed to the database via SqlTableDependency. Also there is a console app client that is connected to the SignalR Core server through TCP protocol and the web clients are connected via HTTP protocol. The SignalR Core server performs the broadcast to all clients when any client perform a request or even when the database change.
 
 #### Understanding the Code
 
-First of all in oder to use SignalR Core we must reference the nuget package source for Asp.Net Core and Asp.Net Core Tools.
+First of all, in order to use SignalR Core we must reference the nuget package source for Asp.Net Core and Asp.Net Core Tools.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -113,8 +115,8 @@ public class Inventory : Hub
 }
 ```
 
-There you go, we got a Hub, naked eye is the same Hub like an old SignalR version, but there are a couple of significant diferences, the fisrt one is that SignalR Core doesn't use anymore Dynamic types to invoke the client methods, instead uses a method called ***InvokeAsync***, that receives the name of the client method and the parameters.
-The other diference is the dependency injection, even thought is not a Hub improvement itself, but it's a great improvement of SignalR Core and Asp.Net Core in general, because in Asp.Net SignalR is neccesary to do a work around in order to inject something to Hub, because SignalR application does not directly create hubs; SignalR creates them for you. By default, SignalR expects a hub class to have a parameterless constructor. So with Asp.net SignalR we must to modify the IoC container to solve this problem, luckily now is simpler.
+There you go, we got a Hub, naked eye is the same Hub like an old SignalR version, but there are a couple of significant differences, the first one is that SignalR Core doesn't use anymore Dynamic types to invoke the client methods, instead uses a method called ***InvokeAsync***, that receives the name of the client method and the parameters.
+The other difference is the dependency injection, even thought is not a Hub improvement itself, but it's a great improvement of SignalR Core and Asp.Net Core in general, because in Asp.Net SignalR is necessary to do a work around in order to inject something to Hub, because SignalR application does not directly create hubs; SignalR creates them for you. By default, SignalR expects a hub class to have a parameterless constructor. So with Asp.net SignalR we must to modify the IoC container to solve this problem, luckily now is simpler.
 
 Now, we gonna explain the repositories. I implemented two repositories, one in memory and another one with Entity Framework in order to get the products from SQL database. The first one is because I wanted to try the SignalR Core features faster, I was really look forward.
 
@@ -166,7 +168,7 @@ public class InMemoryInventoryRepository : IInventoryRepository
 }
 ```
 
-* **Database repositry**: there is one important thing in this repository, look out how I inject the data context. It is because the Entity Framework context is not thread safe and in concurrence scenarios the context has a lot of issues. So using a delegate, the context is instantiated and disposed inside the class it is injected in and on every needs because Entity Framework context life cycles should be as short as possible. This is a tip what a learned when I was studying about CQRS and Event Sourcing in that great [Microsoft project.](https://github.com/MicrosoftArchive/cqrs-journey) Later I'll show you where and how the data context's dependency injections is configured. 
+* **Database repository**: there is one important thing in this repository, look out how I inject the data context. It is because the Entity Framework context is not thread safe and in concurrence scenarios the context has a lot of issues. So using a delegate, the context is instantiated and disposed inside the class it is injected in and on every needs because Entity Framework context life cycles should be as short as possible. This is a tip what a learned when I was studying about CQRS and Event Sourcing in that great [Microsoft project.](https://github.com/MicrosoftArchive/cqrs-journey) Later I'll show you where and how the data context's dependency injections is configured. 
 
 ```c#
 public class DatabaseRepository : IInventoryRepository
@@ -302,7 +304,7 @@ public class InventoryDatabaseSubscription : IDatabaseSubscription
 
 The class receives the repository and the Inventory hub context, also implements the ***Configure*** method, that basically configure the subscription with the database based on the connection string that it receives like parameter.
 
-As you can see I subscribe to *Product* table using the Generic feature of SqlTableDependency passing the entity *Product* (by the way, it uses data annotations). There is an important thing as well, notice that the subscription only listen the delete operation on the table, because I'm passing the last parameter like this: ***DmlTriggerType.Delete***
+As you can see I subscribe to *Product* table using the Generic feature of SqlTableDependency passing the entity *Product* (by the way, it uses data annotations). There is an important thing as well, notice that the subscription only listens the delete operation on the table, because I'm passing the last parameter like this: ***DmlTriggerType.Delete***
 
 Besides I specify a delegate to handle any change what I subscribed when database is changed. Here I perform the broadcast to all clients to notify the change through hub context. As you can see is pretty easy to use SqlTableDependency!
 
