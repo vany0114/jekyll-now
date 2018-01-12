@@ -29,6 +29,10 @@ GLOBAL STYLES
 .container {
 	@include container(900px); 
 	padding: 0;
+	
+	p {
+	   text-align: justify;	
+	}
 }
 
 

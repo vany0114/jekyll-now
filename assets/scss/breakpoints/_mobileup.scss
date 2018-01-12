@@ -43,6 +43,10 @@ img,video,audio,iframe,object{
 .container {
 	@include container(610px);
 	padding: 0 20px;
+	
+	p {
+	   text-align: justify;	
+	}
 }
 
 
