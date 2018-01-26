@@ -8,7 +8,7 @@ title: Contact Geovanny Alzate Sandoval
   <div class="contactContent">
     <br>
     <p class="intro">If you wanna get in touch with me, feel free to write me!</p>    
-    <p class="intro">I receive suggestions, feedback or even insults, please be patient if I don't reply you soon.</p>
+    <p class="intro">I receive suggestions, feedback or ideas, please be patient if I don't reply you soon.</p>
     <p class="intro">We'll get in touch!</p>
   </div>
   <form action="https://formspree.io/elvany0114@gmail.com" method="POST">

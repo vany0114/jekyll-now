@@ -2,19 +2,26 @@
 layout: post
 title: SignalR Core Alpha
 comments: true
+published: false
 excerpt: Some months ago I introduced you the new amazing SignalR version for Asp.Net Core 2.0 and we could get to know how it works, the differences respect to SignalR for Asp.Net and the new architecture for SignalR Core. Also, we talk about the possible dates to release the preview and the release version. So Last September 14th the SignalR Core team announced an alpha release which is the official preview release to SignalR Asp.Net Core 2.0. Today we going to talk about the changes about this version which is the “stable” and official version of SignalR Core.
-keywords: "asp.net core, signalR, signalR core, signalR core alpha, C#, c-sharp, entity framework core, .net core, dot net core, .net core 2.0, dot net core 2.0, .netcore2.0, asp.net core mvc, asp.net, entity framework, sqlDependency, SqlTableDependency, sql server, sql service broker"
+keywords: "asp.net core, signalR, signalR core, signalR core alpha, C#, c-sharp, entity framework core, .net core, dot net core, .net core 2.0, dot net core 2.0, .netcore2.0, asp.net core mvc, asp.net, entity framework, alpha"
 ---
 
-Some months ago I introduced you the [new amazing SignalR version for Asp.Net Core 2.0](http://elvanydev.com/SignalR-Core-SqlDependency-part1/) and we could get to know [how it works](http://elvanydev.com/SignalR-Core-SqlDependency-part2/), the differences respect to SignalR for Asp.Net and the new architecture for SignalR Core. Also, we talk about the possible dates to release the preview and the release version. So [Last September 14th](https://blogs.msdn.microsoft.com/webdev/2017/09/14/announcing-signalr-for-asp-net-core-2-0/) the SignalR Core team announced an Alpha release and later on [October 9th](https://blogs.msdn.microsoft.com/webdev/2017/10/09/announcing-signalr-for-asp-net-core-alpha-2/) they announced Alpha2 which is the official preview release to SignalR Asp.Net Core 2.0. Today we going to talk about the changes about this version which is the last "stable" and official version of SignalR Core.
+Some months ago I introduced you the [new amazing SignalR version for Asp.Net Core 2.0](http://elvanydev.com/SignalR-Core-SqlDependency-part1/) and we could get to know [how it works](http://elvanydev.com/SignalR-Core-SqlDependency-part2/), the differences respect to SignalR for Asp.Net and the new architecture for SignalR Core. Also, we talk about the possible dates to release the preview and the release version. 
 
-When I got to know about the new version immediately I went to my repo and first of all I tried out to build it, and as it was expected, it didn't build, that's the price you must pay when you work over something that is building, but at the same time it's very exciting because you can be aware of the evolution and the improvements and you can realized why the changes happened. Now I just going to tell you the changes what I faced, that by the way, they are very cool.
+In addition, we realized some important changes such as SignalR Core doesn’t support anymore ***Jquery and 3rd party library dependencies*** since the new JavaScript client is made with Typescript; ***auto-reconnect with message replay*** is not included any more, the main reason is because of performance issues; another feature that SignalR team got rid was, ***multi-hub endpoints***, the old version had only a single endpoint, now the new version has an endpoint for every hub; ***scale out (built-in)*** was an important one, a bit radical decision, the reason in a nutshell, is MessageBus was the golden hammer to scale out because there wasn't another way to scale out, you only have that option with three different flavors: Azure Service Bus, Redis and Sql Server, in this new version the scale out option is open in order that to the user will be who handles it according his needs; and the last one was, ***no more multi-server ping-pong (backplane)***, basically because it generated a lot of traffic between the server farm, now this version use sticky sessions to avoid replicate the messages around all servers.
+
+Also, we could realize about the new cool features that the new SignalR Core bring for us, like ***Binary protocol to send and receive messages***, in the old version you could only send and receive messages in JSON format, now with this version is possible to send and receive messages in binary format, so the new binary protocol is based on *MessagePack* serialization format which is faster and smaller than JSON; ***Host-agnostic*** is another important feature because it allows to get rid of *Http* dependency since SignalR Core connections are  agnostics, for instance, now we can use SignalR over *Http* or *Tcp*; ***EndPoints API*** is the building block of this new version and it allows to support the *Host-Agnostic* feature, that is possible because of the new version is based on *Microsoft.AspNetCore.Sockets* which is more low level implementation;  the ***Multiple formats*** feature is a cool one because it allows you to handle any kind of format to send and receive messages, so, it allows us have different clients to talk in different languages (formats) but connected to the same endpoint; this new version ***Supports WebSocket native clients***, you're not bound to use the SignalR web client if you don’t want it, with SignalR Core we can build our own clients if we prefer that, taking advantage of the browser APIs to do this; as I said earlier ***TypeScript Client*** is a new feature and also there is a package published on *NPM* package manager to handle the dependencies easier; and the last one is the ***Scale out is extensible and flexible***, in this version the SignalR Core team improved and simplify the scale-out model and are providing a Redis based scale-out component example in order we can get to know how we can perform our ways to scale out.
+
+So [Last September 14th](https://blogs.msdn.microsoft.com/webdev/2017/09/14/announcing-signalr-for-asp-net-core-2-0/) the SignalR Core team announced an Alpha release and later on [October 9th](https://blogs.msdn.microsoft.com/webdev/2017/10/09/announcing-signalr-for-asp-net-core-alpha-2/) they announced Alpha2 which is the official preview release to SignalR Asp.Net Core 2.0. Today we going to talk about the changes about this version which is the last "stable" and official version of SignalR Core.
+
+When I got to know about the new version immediately I went to my repo and first of all I tried out to build it, and as it was expected, it didn't build, that's the price you must pay when you work over something that is building, but at the same time it's very exciting because you can be aware of the evolution and the improvements and you can realize why the changes happened. Now I just going to tell you the changes what I faced, that by the way, they are very cool.
 
 > New nuget package version: `1.0.0-alpha2-final`
 
 ## HubConnectionBuilder
 
-In the previous version when we needed to connect with a some Hub from the server side, we just used the `HubConnection` class, just like this:
+In the previous version when we needed to connect with some Hub from the server side, we just used the `HubConnection` class, just like this:
 
 ```c#
 var connection = new HubConnection(new Uri(baseUrl), loggerFactory);
@@ -24,9 +31,9 @@ Now we can use the `HubConnectionBuilder` class to make the connection creation 
 
 ```c#
 var connection = new HubConnectionBuilder()
-                    .WithUrl(baseUrl)
-                    .WithConsoleLogger()
-                    .Build();
+                        .WithUrl(baseUrl)
+                        .WithConsoleLogger()
+                        .Build();
 ```
 
 ## Connection server-side handlers
