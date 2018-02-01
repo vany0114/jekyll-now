@@ -73,7 +73,7 @@ As you can see DUber is facing problems related to scalability, disponibility, a
 
 ### Business domain model
 
-Here is when DDD comes into play to help us into a architecture based on Microservices. Before to understand the problem the first thing is to understand the business, the domain, so, after that, you will be able to make a domain model, which is a high-level overview to the system. It helps to organize the domain knowledge and provides a common language for developers and domain experts which Eric Evans called [ubiquitous language](https://martinfowler.com/bliki/UbiquitousLanguage.html). The main idea is mapping all of the business functions and their connections which is a task that involves domain experts, software architects and other stakeholders.
+Here is when DDD comes into play to help us into an architecture based on Microservices. Before to understand the problem the first thing is to understand the business, the domain, so, after that, you will be able to make a domain model, which is a high-level overview to the system. It helps to organize the domain knowledge and provides a common language for developers and domain experts which Eric Evans called [ubiquitous language](https://martinfowler.com/bliki/UbiquitousLanguage.html). The main idea is mapping all of the business functions and their connections which is a task that involves domain experts, software architects and other stakeholders.
 
 <figure>
   <img src="{{ '/images/Duber_Business_Domain.png' | prepend: site.baseurl }}" alt=""> 
