@@ -101,7 +101,7 @@ As you can see there are five bounded contexts there (one external system betwee
 
 ### Classes model
 
-This is a very simple abstraction just to model this problem in a very basic but useful way, in order to applies DDD in our solution, is because of that you will see things like ***[aggregates](https://martinfowler.com/bliki/DDD_Aggregate.html)***, ***[entities and value objects](https://martinfowler.com/bliki/EvansClassification.html)*** in the next diagram. Notice that there isn't nothing about the external system, but it doesn't mean that you not should worries about to model it, in this case, is just for the example propose, but to deal with that, we're gonna use a pattern that Eric Evans called[ ***Anti-corruption layer***](https://docs.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer).
+This is a very simple abstraction just to model this problem in a very basic but useful way, in order to applies DDD in our solution, is because of that you will see things like ***[aggregates](https://martinfowler.com/bliki/DDD_Aggregate.html)***, ***[entities and value objects](https://martinfowler.com/bliki/EvansClassification.html)*** in the next diagram. Notice that there isn't nothing about the external system, but it doesn't mean that you don't should worries about to model it, in this case, is just for the example propose, but to deal with that, we're gonna use a pattern that Eric Evans called[ ***Anti-corruption layer***](https://docs.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer).
 
 <figure>
   <img src="{{ '/images/Duber_Business_Classes_Model.png' | prepend: site.baseurl }}" alt=""> 
