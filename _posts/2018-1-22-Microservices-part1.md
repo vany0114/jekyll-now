@@ -55,10 +55,57 @@ Since every microservice has its own database you couldn't simply make a query j
 One of the biggest challenges in microservices is to keep the data consistent, because as you already know every microservice manage its own data. So, if you need to keep a transaction along multiples microservices you couldn't use an ACID transaction because your data is distributed in several databases. So, one of the common and good solutions is to implement the [Compensating Transaction pattern](http://soapatterns.org/design_patterns/compensating_service_transaction). On the other hand, other common approaches like distributed transactions are not a good idea in a microservices architecture because many modern (NoSQL) databases don’t support it, also it is a blocking protocol and commonly relies on third-party product vendors like Oracle, IBM, etc. Lastly one of the biggest considerations about distributed transactions is the [CAP theorem](https://en.wikipedia.org/wiki/CAP_theorem) that states that in a distributed data store is impossible to guarantee consistency and availability at the same time, so you need to choose one of them and pay off. In other words, the CAP theorem means if you're using a blocking strategy like ACID or 2PC transactions you're not being available (for the time the resources are blocking) even if you're using compensating transactions you´re not being consistent because of the delay of the undo operations along the involved microservices, so in the end, as I said, you need to choose and pay off.
 
 #### Communication:
-As I said earlier since you have a lot of small services, the communication between the client and different microservices could a headache and pretty complex task, so there are several and common solutions such as an [API Getway](http://microservices.io/patterns/apigateway.html), [service mesh](https://buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/) or a [reverse proxy](https://www.nginx.com/resources/glossary/reverse-proxy-server/).
+As I said earlier since you have a lot of small services, the communication between the client and different microservices could a headache and pretty complex task, so there are several and common solutions such as an [API Getaway](http://microservices.io/patterns/apigateway.html), [service mesh](https://buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/) or a [reverse proxy](https://www.nginx.com/resources/glossary/reverse-proxy-server/).
 
-Finally, Now we know what are microservices, its advantages and challenges, I'm gonna propose a handy problem and we gonna see how a microservice architecture can help us, and we gonna develop a solution based on the earlier concepts, and at the end of these series of posts we should able to see a microservices solution working and solved the problem proposed.
+Finally that now we know what are microservices, its advantages and challenges, I'm gonna propose a handy problem and we gonna see how a microservice architecture can help us, and we gonna develop a solution based on the earlier concepts, and at the end of these series of posts we should able to see a microservices solution working and solved the problem proposed.
 
 ## The problem
 
+DUber is a public transport company that join drivers with users that required a taxi service in order to move them from one place to another through an App that allows them to request a service using their current location and picking up the destination on a map. The main problems that DUber is facing at this time are:
 
+* DUber became a pretty popular application and it's used by millions of people, but currently, it has scaling problems due to its monolithic architecture.
+* In the rush hours the DUber's services collapse because of the system can't support the big ammount of requests.
+* DUber is facing problems tracking all about the trip, since it starts until it ends. So user and driver aren't aware, for instance when a service is canceled or the driver is on the way, etc.
+* Since the current architecture is a monolithic one and the team is very big, the release process in DUber takes a long time, especially for bugs because until to release the fix, is necessary to test and redeploy the whole application.
+* Sometimes the development team lose a lot of time setting the development environment up due to the dependencies and even in the QA and production environments there are errors like: "I don't know why, but in my local machine works like a charm"
+
+As you can see DUber is facing problems related to scalability, disponibility, agility and tracking business objects/workflows. So, we gonna tackling those problems with a Microservice architecture helped by DDD, CQRS, Docker and Azure Service Fabric mainly, but first, we gonna start analyzing the problem making a business domain model helped by DDD.
+
+### Business domain model
+
+Here is when DDD comes into play to help us into a architecture based on Microservices. Before to understand the problem the first thing is to understand the business, the domain, so, after that, you will be able to make a domain model, which is a high-level overview to the system. It helps to organize the domain knowledge and provides a common language for developers and domain experts which Eric Evans called [ubiquitous language](https://martinfowler.com/bliki/UbiquitousLanguage.html). The main idea is mapping all of the business functions and their connections which is a task that involves domain experts, software architects and other stakeholders.
+
+<figure>
+  <img src="{{ '/images/Duber_Business_Domain.png' | prepend: site.baseurl }}" alt=""> 
+  <figcaption>Fig1. - Business Domain Model</figcaption>
+</figure>
+
+After that analysis you can notice that there are five main components and how is the relation between them:
+
+* **Trip**:  is the heart of the system, it’s because is placed in the center of the diagram.
+* **Driver**: It's part of the system core because enables the Trip functionality.
+* **User**: It's part of the system core as well and manage all information related with the user.
+* **Invoicing**: takes care of pricing and coordinates the payment. 
+* **Payment**: it's an external system which makes the payment itself.
+
+### Bounded Contexts
+
+This diagram represents the boundaries within the domain, how they are related to each other and identifies easily the subsystems into the whole domain, which ones could be a microservices in our system since a [bounded context](https://martinfowler.com/bliki/BoundedContext.html) marks the boundary of a particular domain model and as we already know a microservice only has one particular responsibility, so the functionality in a microservice should not span more than one bounded context. If you find that a microservice mixes different domain models together, that's a sign that is something wrong with your domain analysis and you may need to go back and refine it.
+
+<figure>
+  <img src="{{ '/images/Duber_Bounded_Contexts.png' | prepend: site.baseurl }}" alt=""> 
+  <figcaption>Fig2. - Bounded Contexts</figcaption>
+</figure>
+
+As you can see there are five bounded contexts there (one external system between them), so, they are candidates to be microservices, but not necessarily every bounded context has to be it, it depends on the problem and your needs, so in this case and based on the problem proposed earlier, we're gonna pick *Trip* and *Invoicing* bounded contexts up in order to they will be our microservices for this problem, since as you already know, the problem here is related with the scalability and disponibility around the trips.
+
+### Classes model
+
+This is a very simple abstraction just to model this problem in a very basic but useful way, in order to applies DDD in our solution, is because of that you will see things like ***[aggregates](https://martinfowler.com/bliki/DDD_Aggregate.html)***, ***[entities and value objects](https://martinfowler.com/bliki/EvansClassification.html)*** in the next diagram. Notice that there isn't nothing about the external system, but it doesn't mean that you not should worries about to model it, in this case, is just for the example propose, but to deal with that, we're gonna use a pattern that Eric Evans called[ ***Anti-corruption layer***](https://docs.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer).
+
+<figure>
+  <img src="{{ '/images/Duber_Business_Classes_Model.png' | prepend: site.baseurl }}" alt=""> 
+  <figcaption>Fig3. - Classes model</figcaption>
+</figure>
+
+At this point we have spent a lot of time understanding the problem and designing the solution, that’s good and we always need to spend the enough time in this phase. Usually at this point we haven’t made any decisions about implementation or technologies (beyond what I have tell you about Docker and Azure Service Fabric), so in the next post we’re gonna propose the architecture and we’re gonna make some decisions about technologies and implementation, so stay tune because the next posts gonna be really interesting!
